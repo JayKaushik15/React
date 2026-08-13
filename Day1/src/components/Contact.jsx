@@ -21,7 +21,7 @@ const Contact = () => {
             Send a message and I'll get back to you.
           </p>
           <div className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
-            <p>📧 kaushikjay036@gmail.com</p>
+            <p>📧 abc@gmail.com</p>
             <p>📍 Available for remote work</p>
           </div>
         </motion.div>
