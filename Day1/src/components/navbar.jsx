@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import profilePic from "../assets/MyPhoto.jpeg";
 
+const navLinks = ["Home", "About", "Services", "Contact"];
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return (
       localStorage.getItem("theme") === "dark" ||
@@ -33,7 +36,7 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close dropdown on outside click
+  // Close profile dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -75,7 +78,6 @@ const Navbar = () => {
             {/* Profile Dropdown Menu */}
             {isDropdownOpen && (
               <div className="absolute left-0 mt-3 w-56 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-700/80 py-2 z-[999]">
-                {/* User Info Header */}
                 <div className="px-4 py-2.5 border-b border-slate-100 dark:border-slate-700/60">
                   <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
                     Jay Kaushik
@@ -85,7 +87,6 @@ const Navbar = () => {
                   </p>
                 </div>
 
-                {/* Dropdown Items */}
                 <div className="py-1">
                   <a
                     href="#profile"
@@ -103,7 +104,6 @@ const Navbar = () => {
                   </a>
                 </div>
 
-                {/* Logout Button */}
                 <div className="border-t border-slate-100 dark:border-slate-700/60 pt-1">
                   <button
                     type="button"
@@ -121,14 +121,22 @@ const Navbar = () => {
           </div>
 
           {/* Brand Logo */}
-          <div className="text-2xl font-black tracking-tight text-slate-900 dark:text-white select-none">
-            My<span className="text-sky-500">Brand</span>
+          <div className="flex items-center select-none">
+            <span className="font-display text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+              React
+            </span>
+            <span
+              className="font-display text-3xl font-extrabold tracking-tight ml-0.5 pr-1 inline-block bg-gradient-to-r from-sky-400 via-sky-500 to-violet-500 bg-clip-text text-transparent"
+              style={{ transform: "skewX(-10deg)" }}
+            >
+              Wise
+            </span>
           </div>
         </div>
 
-        {/* Right Side: Navigation Links, Dark Toggle & CTA */}
+        {/* Right Side (desktop): Navigation Links, Dark Toggle & CTA */}
         <div className="hidden md:flex items-center gap-8 font-medium text-slate-600 dark:text-slate-300">
-          {["Home", "About", "Services", "Contact"].map((item) => (
+          {navLinks.map((item) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
@@ -138,7 +146,6 @@ const Navbar = () => {
             </a>
           ))}
 
-          {/* Dark Mode Toggle */}
           <button
             type="button"
             onClick={() => setIsDarkMode(!isDarkMode)}
@@ -148,7 +155,6 @@ const Navbar = () => {
             {isDarkMode ? "☀️" : "🌙"}
           </button>
 
-          {/* CTA Button */}
           <button
             type="button"
             className="bg-slate-900 dark:bg-sky-500 hover:bg-slate-800 dark:hover:bg-sky-400 text-white px-5 py-2 rounded-xl text-sm font-semibold transition-all shadow-sm cursor-pointer"
@@ -156,7 +162,49 @@ const Navbar = () => {
             Get Started
           </button>
         </div>
+
+        {/* Mobile: dark toggle + hamburger */}
+        <div className="flex md:hidden items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            aria-label="Toggle Dark Mode"
+            className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 cursor-pointer"
+          >
+            {isDarkMode ? "☀️" : "🌙"}
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((v) => !v)}
+            aria-label="Toggle menu"
+            className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 cursor-pointer"
+          >
+            {isMobileMenuOpen ? "✕" : "☰"}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile dropdown menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden mt-4 px-6 pb-4 flex flex-col gap-4 border-t border-slate-200 dark:border-slate-800 pt-4">
+          {navLinks.map((item) => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-sky-500 transition-colors"
+            >
+              {item}
+            </a>
+          ))}
+          <button
+            type="button"
+            className="bg-slate-900 dark:bg-sky-500 text-white px-5 py-2.5 rounded-xl text-sm font-semibold w-full"
+          >
+            Get Started
+          </button>
+        </div>
+      )}
     </nav>
   );
 };
