@@ -1,12 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import profilePic from "../assets/MyPhoto.jpeg";
+import AuthModal from "./AuthModal";
 
-const navLinks = ["Home", "About", "Services", "Contact"];
+const primaryLinks = [
+  { label: "Home", to: "/" },
+  { label: "About", to: "/about" },
+  { label: "Projects", to: "/projects" },
+  { label: "Pricing", to: "/pricing" },
+];
+
+const moreLinks = [
+  { label: "Skills", to: "/skills" },
+  { label: "Testimonials", to: "/testimonials" },
+  { label: "Blog", to: "/blog" },
+  { label: "FAQ", to: "/faq" },
+];
 
 const Navbar = () => {
+  const { pathname } = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [showAvatarHint, setShowAvatarHint] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return (
       localStorage.getItem("theme") === "dark" ||
@@ -16,6 +34,7 @@ const Navbar = () => {
   });
 
   const dropdownRef = useRef(null);
+  const moreRef = useRef(null);
 
   // Dark Mode Toggle
   useEffect(() => {
@@ -36,16 +55,39 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close profile dropdown on outside click
+  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
+      if (moreRef.current && !moreRef.current.contains(event.target)) {
+        setIsMoreOpen(false);
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
+  // Briefly draw attention to the profile avatar, then stop
+  useEffect(() => {
+    const t = setTimeout(() => setShowAvatarHint(false), 1000);
+    return () => clearTimeout(t);
+  }, []);
+
+  const linkClass = (to) =>
+    `text-sm transition-colors hover:text-sky-500 dark:hover:text-sky-400 ${
+      pathname === to
+        ? "text-sky-500 dark:text-sky-400 font-semibold"
+        : "text-slate-600 dark:text-slate-300"
+    }`;
+
+  const isMoreActive = moreLinks.some((l) => l.to === pathname);
 
   return (
     <nav
@@ -58,24 +100,35 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Left Side: Profile Avatar + Brand Name */}
         <div className="flex items-center gap-3">
-          {/* Profile Dropdown Container */}
           <div className="relative inline-block text-left" ref={dropdownRef}>
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsDropdownOpen(!isDropdownOpen);
+                setShowAvatarHint(false);
               }}
-              className="flex items-center focus:outline-none cursor-pointer"
+              className="flex items-center gap-1 focus:outline-none cursor-pointer"
             >
-              <img
-                src={profilePic}
-                alt="Profile Avatar"
-                className="w-10 h-10 rounded-full object-cover border-2 border-sky-500 shadow-sm hover:scale-105 transition-transform"
-              />
+              <span className="relative flex-shrink-0">
+                {showAvatarHint && !isDropdownOpen && (
+                  <span className="absolute inset-0 rounded-full border-2 border-sky-400 animate-ping" />
+                )}
+                <img
+                  src={profilePic}
+                  alt="Profile Avatar"
+                  className="relative w-10 h-10 rounded-full object-cover border-2 border-sky-500 shadow-sm hover:scale-105 transition-transform"
+                />
+              </span>
+              <span
+                className={`text-xs text-slate-400 dark:text-slate-500 transition-transform ${
+                  isDropdownOpen ? "rotate-180" : ""
+                }`}
+              >
+                ▾
+              </span>
             </button>
 
-            {/* Profile Dropdown Menu */}
             {isDropdownOpen && (
               <div className="absolute left-0 mt-3 w-56 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-700/80 py-2 z-[999]">
                 <div className="px-4 py-2.5 border-b border-slate-100 dark:border-slate-700/60">
@@ -83,25 +136,25 @@ const Navbar = () => {
                     Jay Kaushik
                   </p>
                   <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
-                    kaushikjay036@gmail.com
+                    abc036@gmail.com
                   </p>
                 </div>
 
                 <div className="py-1">
-                  <a
-                    href="#profile"
+                  <Link
+                    to="/profile"
                     onClick={() => setIsDropdownOpen(false)}
                     className="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-slate-700/50 hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
                   >
                     <span>👤</span> View Profile
-                  </a>
-                  <a
-                    href="#settings"
+                  </Link>
+                  <Link
+                    to="/settings"
                     onClick={() => setIsDropdownOpen(false)}
                     className="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-slate-700/50 hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
                   >
                     <span>⚙️</span> Settings
-                  </a>
+                  </Link>
                 </div>
 
                 <div className="border-t border-slate-100 dark:border-slate-700/60 pt-1">
@@ -120,8 +173,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Brand Logo */}
-          <div className="flex items-center select-none">
+          <Link to="/" className="flex items-center select-none">
             <span className="font-display text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
               React
             </span>
@@ -131,20 +183,57 @@ const Navbar = () => {
             >
               Wise
             </span>
-          </div>
+          </Link>
         </div>
 
-        {/* Right Side (desktop): Navigation Links, Dark Toggle & CTA */}
-        <div className="hidden md:flex items-center gap-8 font-medium text-slate-600 dark:text-slate-300">
-          {navLinks.map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="hover:text-sky-500 dark:hover:text-sky-400 transition-colors text-sm"
-            >
-              {item}
-            </a>
+        {/* Right Side (desktop) */}
+        <div className="hidden lg:flex items-center gap-7 font-medium">
+          {primaryLinks.map((item) => (
+            <Link key={item.to} to={item.to} className={linkClass(item.to)}>
+              {item.label}
+            </Link>
           ))}
+
+          {/* More dropdown */}
+          <div className="relative" ref={moreRef}>
+            <button
+              type="button"
+              onClick={() => setIsMoreOpen((v) => !v)}
+              className={`flex items-center gap-1 text-sm transition-colors hover:text-sky-500 dark:hover:text-sky-400 cursor-pointer ${
+                isMoreActive
+                  ? "text-sky-500 dark:text-sky-400 font-semibold"
+                  : "text-slate-600 dark:text-slate-300"
+              }`}
+            >
+              More
+              <span
+                className={`text-xs transition-transform ${
+                  isMoreOpen ? "rotate-180" : ""
+                }`}
+              >
+                ▾
+              </span>
+            </button>
+
+            {isMoreOpen && (
+              <div className="absolute left-0 mt-3 w-44 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-700/80 py-2 z-[999]">
+                {moreLinks.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    onClick={() => setIsMoreOpen(false)}
+                    className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-slate-700/50 hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link to="/contact" className={linkClass("/contact")}>
+            Contact
+          </Link>
 
           <button
             type="button"
@@ -157,14 +246,15 @@ const Navbar = () => {
 
           <button
             type="button"
+            onClick={() => setIsAuthOpen(true)}
             className="bg-slate-900 dark:bg-sky-500 hover:bg-slate-800 dark:hover:bg-sky-400 text-white px-5 py-2 rounded-xl text-sm font-semibold transition-all shadow-sm cursor-pointer"
           >
             Get Started
           </button>
         </div>
 
-        {/* Mobile: dark toggle + hamburger */}
-        <div className="flex md:hidden items-center gap-2">
+        {/* Mobile / tablet: dark toggle + hamburger */}
+        <div className="flex lg:hidden items-center gap-2">
           <button
             type="button"
             onClick={() => setIsDarkMode(!isDarkMode)}
@@ -186,25 +276,30 @@ const Navbar = () => {
 
       {/* Mobile dropdown menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden mt-4 px-6 pb-4 flex flex-col gap-4 border-t border-slate-200 dark:border-slate-800 pt-4">
-          {navLinks.map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-sky-500 transition-colors"
-            >
-              {item}
-            </a>
+        <div className="lg:hidden mt-4 px-6 pb-4 flex flex-col gap-4 border-t border-slate-200 dark:border-slate-800 pt-4 max-h-[70vh] overflow-y-auto">
+          {[
+            ...primaryLinks,
+            ...moreLinks,
+            { label: "Contact", to: "/contact" },
+          ].map((item) => (
+            <Link key={item.to} to={item.to} className={linkClass(item.to)}>
+              {item.label}
+            </Link>
           ))}
           <button
             type="button"
-            className="bg-slate-900 dark:bg-sky-500 text-white px-5 py-2.5 rounded-xl text-sm font-semibold w-full"
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              setIsAuthOpen(true);
+            }}
+            className="bg-slate-900 dark:bg-sky-500 text-white px-5 py-2.5 rounded-xl text-sm font-semibold w-full text-center"
           >
             Get Started
           </button>
         </div>
       )}
+
+      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
     </nav>
   );
 };

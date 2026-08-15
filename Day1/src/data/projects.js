@@ -1,0 +1,111 @@
+// Placeholder projects — replace with your real work before this goes live.
+export const projects = [
+  {
+    slug: "orbit-dashboard",
+    image: "https://loremflickr.com/640/480/dashboard,analytics?lock=101",
+    icon: "📊",
+    title: "Orbit Dashboard",
+    desc: "A real-time analytics dashboard with live charts, saved views, and role-based access.",
+    tags: ["React", "Tailwind", "Recharts"],
+    year: "2026",
+    role: "Front-end development",
+    overview:
+      "Orbit needed a dashboard that could handle a high volume of live data without feeling sluggish. The build focuses on fast chart rendering, saved custom views, and role-based access so different teams only see what's relevant to them.",
+    features: [
+      "Real-time chart updates without layout jank",
+      "Saved, shareable dashboard views",
+      "Role-based access control",
+      "Full dark mode support",
+    ],
+  },
+  {
+    slug: "loop-habit-tracker",
+    image: "https://loremflickr.com/640/480/habit,calendar?lock=102",
+    icon: "✅",
+    title: "Loop — Habit Tracker",
+    desc: "A minimal habit tracker with streaks, reminders, and a calendar heatmap view.",
+    tags: ["React", "Framer Motion"],
+    year: "2025",
+    role: "Design & development",
+    overview:
+      "Loop is built around a single idea: checking off a habit should feel satisfying, not like a chore. Motion is used sparingly but deliberately — streak animations, a heatmap calendar, and gentle reminders.",
+    features: [
+      "Streak tracking with a GitHub-style heatmap",
+      "Lightweight local reminders",
+      "Minimal, distraction-free interface",
+      "Fully responsive, mobile-first layout",
+    ],
+  },
+  {
+    slug: "marketplace-ui-kit",
+    image: "https://loremflickr.com/640/480/ecommerce,shopping?lock=103",
+    icon: "🛍️",
+    title: "Marketplace UI Kit",
+    desc: "A component library for e-commerce storefronts — cart, checkout, and product grids.",
+    tags: ["React", "Tailwind"],
+    year: "2025",
+    role: "Component library design",
+    overview:
+      "A reusable set of storefront components — product grids, cart drawers, and a checkout flow — built so other teams could drop them into new stores without starting from scratch.",
+    features: [
+      "Composable product grid & card components",
+      "Cart drawer with quantity controls",
+      "Multi-step checkout flow",
+      "Documented with usage examples",
+    ],
+  },
+  {
+    slug: "northline-crm",
+    image: "https://loremflickr.com/640/480/office,business?lock=104",
+    icon: "📇",
+    title: "Northline CRM",
+    desc: "Lightweight CRM for small teams: pipeline board, contact notes, and email templates.",
+    tags: ["React", "Vite"],
+    year: "2024",
+    role: "Front-end development",
+    overview:
+      "Northline replaced a spreadsheet-based workflow with a proper pipeline board, contact history, and reusable email templates — without the bloat of a full enterprise CRM.",
+    features: [
+      "Drag-and-drop pipeline board",
+      "Per-contact notes and activity history",
+      "Reusable email templates",
+      "Fast search across contacts and deals",
+    ],
+  },
+  {
+    slug: "studio-portfolio",
+    image: "https://loremflickr.com/640/480/design,studio?lock=105",
+    icon: "🎨",
+    title: "Studio Portfolio",
+    desc: "A design studio's marketing site with case studies and an interactive project grid.",
+    tags: ["React", "Tailwind"],
+    year: "2024",
+    role: "Front-end development",
+    overview:
+      "A marketing site for a small design studio, built around detailed case studies and an interactive project grid that reflects the studio's own visual style.",
+    features: [
+      "Interactive, filterable project grid",
+      "Long-form case study layout",
+      "Custom cursor and scroll-based motion",
+      "Fully responsive across breakpoints",
+    ],
+  },
+  {
+    slug: "pulse-server-monitor",
+    image: "https://loremflickr.com/640/480/server,technology?lock=106",
+    icon: "📡",
+    title: "Pulse — Server Monitor",
+    desc: "A status-page style dashboard for tracking uptime and incident history.",
+    tags: ["React", "Tailwind"],
+    year: "2024",
+    role: "Front-end development",
+    overview:
+      "A public-facing status page paired with an internal dashboard for tracking uptime, incidents, and response times across multiple services.",
+    features: [
+      "Public status page with live uptime",
+      "Incident timeline and history",
+      "At-a-glance service health indicators",
+      "Dark mode by default",
+    ],
+  },
+];

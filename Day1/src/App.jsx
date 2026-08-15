@@ -1,10 +1,19 @@
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AuroraBackground from "./components/AuroraBackground";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import Services from "./components/Services";
-import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Projects from "./pages/Projects";
+import ProjectDetail from "./pages/ProjectDetail";
+import Pricing from "./pages/Pricing";
+import Blog from "./pages/Blog";
+import Contact from "./pages/Contact";
+import FAQ from "./pages/FAQ";
+import Testimonials from "./pages/Testimonials";
+import Skills from "./pages/Skills";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -12,10 +21,20 @@ function App() {
       <AuroraBackground />
       <Navbar />
       <main>
-        <Hero />
-        <About />
-        <Services />
-        <Contact />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:slug" element={<ProjectDetail />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/testimonials" element={<Testimonials />} />
+          <Route path="/skills" element={<Skills />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
       </main>
       <Footer />
     </div>
