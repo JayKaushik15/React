@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
-import { skillGroups } from "../data/skills";
+import { skillGroups } from "../data/Skills";
 
 const Skills = () => {
   return (
