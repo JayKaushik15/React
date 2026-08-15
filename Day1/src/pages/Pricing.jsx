@@ -97,12 +97,16 @@ const Pricing = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className={`card-premium p-8 relative ${
-                plan.highlighted ? "md:-translate-y-3 ring-2 ring-sky-400/60" : ""
+              /* 👇 !overflow-visible add kiya gaya hai taaki badge cut na ho */
+              className={`card-premium !overflow-visible p-8 relative ${
+                plan.highlighted
+                  ? "md:-translate-y-3 ring-2 ring-sky-400/60"
+                  : ""
               }`}
             >
               {plan.highlighted && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-semibold px-3 py-1 rounded-full bg-sky-500 text-white shadow-md">
+                /* 👇 z-10 aur whitespace-nowrap add kiya gaya hai */
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap text-xs font-semibold px-3 py-1 rounded-full bg-sky-500 text-white shadow-md">
                   Most popular
                 </span>
               )}
